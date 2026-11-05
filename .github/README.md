@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-    <img src="personal/wallpapers/2024-Formula1-McLaren-MCL38-003-2800p.jpg" alt="Current wallpaper" width="720">
+    <img src="/.github/image.png" alt="Current setup" width="720">
 </div>
 
 ## About this repo
