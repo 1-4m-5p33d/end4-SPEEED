@@ -17,6 +17,7 @@ Item {
     property var request: null
     readonly property string trackKey: JSON.stringify([player?.trackTitle || "", player?.trackArtist || "", player?.trackAlbum || "", player?.length || 0])
     readonly property int currentLine: Lyrics.currentIndex(lines, player?.position ?? 0)
+    implicitHeight: lyricColumn.implicitHeight
 
     onTrackKeyChanged: scheduleLookup()
     Component.onCompleted: scheduleLookup()
@@ -74,6 +75,14 @@ Item {
     }
 
     Timer { id: lookup; interval: 400; onTriggered: root.fetchLyrics() }
+    // MPRIS position advances between signals; the upstream card normally
+    // refreshes it only every three seconds, which makes lyric changes late.
+    Timer {
+        interval: 150
+        repeat: true
+        running: root.player?.isPlaying ?? false
+        onTriggered: root.player.positionChanged()
+    }
     Timer {
         id: timeout
         interval: 10000
@@ -86,21 +95,21 @@ Item {
     }
 
     ColumnLayout {
+        id: lyricColumn
         anchors.fill: parent
-        spacing: 2
+        spacing: 6
         Repeater {
             model: 3
             delegate: Text {
                 required property int index
                 readonly property int lyricIndex: root.currentLine + index - 1
                 Layout.fillWidth: true
-                Layout.fillHeight: true
+                Layout.minimumHeight: font.pixelSize * 1.35
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 textFormat: Text.PlainText
                 text: root.lines.length ? (root.lines[lyricIndex]?.text || "") : (index === 1 ? root.status : "")
-                elide: Text.ElideRight
-                maximumLineCount: 1
+                wrapMode: Text.Wrap
                 font.family: Appearance.font.family.main
                 font.pixelSize: index === 1 && root.lines.length ? 19 : 15
                 font.weight: index === 1 && root.lines.length ? Font.Bold : Font.Medium

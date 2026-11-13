@@ -7,6 +7,13 @@ my customizations.
 The base repo (`setup`, `dots/`, `sdata/`, ...) stays pristine. Everything I
 changed lives here.
 
+## Synchronized lyrics
+
+I added synchronized lyrics to the media card. It shows three lines, highlights
+the line being sung, and wraps longer lines so they remain readable.
+
+![Media card showing synchronized lyrics](screenshots/synced-lyrics.png)
+
 ## What is tracked
 
 ```
