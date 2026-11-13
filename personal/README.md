@@ -52,6 +52,11 @@ cd end4-SPEEED
 `apply.sh` also runs `switchwall.sh --image <wallpaper>` so matugen regenerates
 the whole color scheme (shell, GTK, KDE, fuzzel, lock screen, …).
 
+The media card also shows three lines of synchronized lyrics, with the current
+line highlighted. It uses the active player's MPRIS metadata and position and
+looks up timed lyrics from LRCLIB, sending the song title and artist to that
+service. Tracks without matching timed lyrics show an unavailable message.
+
 ## Updating from upstream
 
 One-time setup of the upstream remote:
@@ -72,6 +77,15 @@ git merge upstream/main          # or: git rebase upstream/main
 Because this overlay only adds `personal/` (a path upstream never touches),
 merges should be conflict-free. `./setup exp-merge` is the repo's experimental
 helper for the same idea (it expects an `upstream` remote); it is not required.
+
+The lyrics code lives in `personal/`. Applying the overlay installs its QML and
+adds a small hook to the **installed** upstream media card; it does not edit
+tracked `dots/` files. Re-run `./personal/apply.sh` after installing upstream
+updates. The hook checks the upstream layout before changing it and reports an
+error if it no longer matches; in that case the hook in
+`personal/install-lyrics-hook.py` needs updating for the new layout. Restart
+Quickshell if the card does not reload automatically. A clean Git merge cannot
+guarantee compatibility with future upstream shell changes.
 
 ## Saving new changes
 

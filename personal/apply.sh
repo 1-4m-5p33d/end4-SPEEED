@@ -93,6 +93,16 @@ for root, _dirs, names in os.walk(files_dir):
 PY
 fi
 
+# --- Personal lyrics in the upstream media card -----------------------------
+# Only patch recognized upstream files; a changed upstream layout requires review.
+MEDIA_DIR="$HOME/.config/quickshell/ii/modules/ii/mediaControls"
+HOOK_ARGS=()
+if $DRY_RUN; then HOOK_ARGS+=(--dry-run); fi
+if ! python3 "$PERSONAL_DIR/install-lyrics-hook.py" "${HOOK_ARGS[@]}" "$MEDIA_DIR"; then
+    say "warning: lyrics integration could not be applied; inspect the upstream media controls before updating the hook."
+    exit 1
+fi
+
 # --- Fix known-invalid upstream values --------------------------------------
 # Upstream sets decoration.shadow.render_power = 10, but Hyprland rejects
 # anything above 4 and reports a config error on every reload. Patch the
