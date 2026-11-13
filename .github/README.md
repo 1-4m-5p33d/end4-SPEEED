@@ -31,6 +31,11 @@ weekend of tweaking.
 - **Lock screen** — 12-hour clock.
 - **Bar / shell settings** — panel family, bar layout, weather, sidebar,
   overview, and the rest of the Quickshell config.
+- **Synchronized lyrics** — I added lyrics to the media card, showing three
+  lines with the current line highlighted. Timed lyrics are looked up through
+  LRCLIB.
+
+![Media card showing synchronized lyrics](/personal/screenshots/synced-lyrics.png)
 
 Fonts are intentionally the upstream defaults: **Google Sans Flex**,
 **JetBrains Mono NF**, **Readex Pro**, and **Space Grotesk**. My local
