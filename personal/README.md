@@ -78,7 +78,7 @@ read the shell's graphical configuration using its configuration tool.
 
 ## AI command approval
 
-The sidebar has an Ask/Auto switch for shell commands. Ask is the default and
+The sidebar has an Ask/Auto button in its status strip for shell commands. Ask is the default and
 requires approval for each command; Auto runs AI-requested shell commands
 without prompting in every chat. The chosen setting is saved in the shell config.
 As with other settings, run `./personal/capture.sh` to include the current choice
@@ -96,8 +96,8 @@ free API tier may use submitted content to improve Google products.
 ## Global voice typing
 
 Press Super+Space in a focused application to start recording and press it again
-to stop. The blue microphone in the top bar pulses during recording and changes
-while Gemini transcribes. The transcription is typed into the focused window;
+to stop. A blue capsule beside the top-left logo appears while recording and changes
+while Gemini transcribes; it collapses when voice typing finishes. The transcription is typed into the focused window;
 if the window changes, typing is cancelled. Errors appear as desktop notifications.
 Audio is sent to Gemini using the key saved in the sidebar. This needs `wtype`,
 `pw-record`, Python, and a compositor that supports the Wayland virtual keyboard

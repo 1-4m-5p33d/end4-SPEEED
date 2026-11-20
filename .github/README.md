@@ -37,6 +37,36 @@ weekend of tweaking.
 
 ![Media card showing synchronized lyrics](/personal/screenshots/synced-lyrics.png)
 
+### AI sidebar
+
+The Intelligence sidebar includes **DeepSeek V4.1 Flash** through Token
+Harbor's free API. It can answer questions, read an attached image, and turn
+screenshots or documents into paste-ready Markdown. The sidebar also supports
+streamed function calls: the model can read shell settings or run commands.
+The **Ask / Auto** control in the status strip chooses whether shell commands
+need approval or run without prompting across chats. Use `/tool none` to disable
+model tools until you enable them again.
+
+![AI sidebar converting a screenshot into Markdown beside the original document and notes](/personal/screenshots/ai-sidebar-image-to-markdown.png)
+
+The sidebar microphone records speech and puts the transcription in the message
+box for editing before sending. Transcription uses **Gemini 3.5 Flash-Lite** and
+a Gemini API key, independently of the selected chat model.
+
+### Global voice typing
+
+Press **Super+Space** in a focused application to start recording, then press it
+again to stop. Gemini transcribes the audio and the text is typed into the active
+window. A blue capsule beside the top-left logo shows when recording or
+transcription is in progress, and errors appear as desktop notifications. The
+capsule collapses when finished.
+
+![Blue Recording capsule beside the top-left bar logo](/personal/screenshots/global-voice-typing.png)
+
+Audio goes to Gemini for transcription. If the active window changes, the text
+isn't typed; the shortcut needs `wtype`, `pw-record`, Python, and a Wayland
+compositor with virtual-keyboard support.
+
 Fonts are intentionally the upstream defaults: **Google Sans Flex**,
 **JetBrains Mono NF**, **Readex Pro**, and **Space Grotesk**. My local
 `fontconfig` is not carried over.
@@ -52,8 +82,13 @@ cd end4-SPEEED
 
 `./setup install` installs the base dotfiles and dependencies.
 `./personal/apply.sh` then applies my overlay (Hyprland custom files, shell
-config, wallpaper, lock screen) and regenerates the color scheme from the
-wallpaper.
+config, wallpaper, lock screen, AI sidebar, and voice typing) and regenerates
+the color scheme from the wallpaper. Restart Quickshell after applying the
+overlay so its UI integrations load.
+
+API keys are stored in the system keyring, not in this repo. Select the desired
+model in the AI sidebar and use `/key` to set its Token Harbor key; select a
+Gemini model and set its key for voice transcription.
 
 Monitor layout is machine-specific and is **not** tracked. Set it on the new
 machine with `nwg-displays` or `hyprctl`.

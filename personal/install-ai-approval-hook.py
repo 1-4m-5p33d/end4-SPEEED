@@ -14,14 +14,7 @@ def replace_once(text, old, new):
 def config(text):
     return replace_once(text, '            property JsonObject ai: JsonObject {\n                property string systemPrompt:', '            property JsonObject ai: JsonObject {\n                property bool confirmCommands: true // end4-personal command approval\n                property string systemPrompt:')
 
-def sidebar(text):
-    old='''                Item {
-                    Layout.fillWidth: true
-                }
-
-                ButtonGroup {
-                    // Command buttons'''
-    new='''                RowLayout { // end4-personal command approval
+LEGACY_SIDEBAR = '''                RowLayout { // end4-personal command approval
                     spacing: 2
                     StyledText {
                         text: Config.options.ai.confirmCommands ? "Ask" : "Auto"
@@ -39,13 +32,59 @@ def sidebar(text):
                     }
                 }
 
-                Item {
+'''
+
+def sidebar(text):
+    if LEGACY_SIDEBAR in text:
+        text=replace_once(text,LEGACY_SIDEBAR,"")
+    old='''                    StatusSeparator {
+                        visible: Ai.tokenCount.total > 0
+                    }
+                    StatusItem {
+                        visible: Ai.tokenCount.total > 0'''
+    new='''                    StatusSeparator {} // end4-personal command approval compact
+                    StatusItem {
+                        icon: Config.options.ai.confirmCommands ? "shield" : "bolt"
+                        statusText: Config.options.ai.confirmCommands ? " Ask" : " Auto"
+                        description: Config.options.ai.confirmCommands
+                            ? "Commands require approval in every chat. Click to enable automatic execution."
+                            : "Commands run without asking in every chat. Click to require approval."
+                        cursorShape: Qt.PointingHandCursor
+                        Accessible.role: Accessible.CheckBox
+                        Accessible.name: "Ask before running AI commands"
+                        Accessible.checked: Config.options.ai.confirmCommands
+                        onClicked: Config.options.ai.confirmCommands = !Config.options.ai.confirmCommands
+                    }
+                    StatusSeparator {
+                        visible: Ai.tokenCount.total > 0
+                    }
+                    StatusItem {
+                        visible: Ai.tokenCount.total > 0'''
+    text=replace_once(text,old,new)
+    old='''                ApiInputBoxIndicator {
+                    // Model indicator
+                    icon: "api"'''
+    new='''                ApiInputBoxIndicator {
+                    // Model indicator
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: 0
+                    icon: "api"'''
+    text=replace_once(text,old,new)
+    return replace_once(text, '''                Item {
                     Layout.fillWidth: true
                 }
 
                 ButtonGroup {
-                    // Command buttons'''
-    return replace_once(text,old,new)
+                    // Command buttons''', '''                Item {
+                    Layout.preferredWidth: 0
+                }
+
+                ButtonGroup {
+                    // Command buttons''')
+
+def indicator(text):
+    text=replace_once(text,'        anchors.centerIn: parent\n\n        MaterialSymbol {','        anchors.fill: parent // end4-personal command approval\n        anchors.margins: 4\n\n        MaterialSymbol {')
+    return replace_once(text,'            id: providerName\n            font.pixelSize:', '            id: providerName\n            Layout.fillWidth: true\n            Layout.minimumWidth: 0\n            font.pixelSize:')
 
 def service(text):
     text=replace_once(text,'''        property ApiStrategy currentStrategy
@@ -91,11 +130,12 @@ def service(text):
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--dry-run',action='store_true'); parser.add_argument('directory',type=Path); args=parser.parse_args()
-    paths=[args.directory/'modules/common/Config.qml',args.directory/'modules/ii/sidebarLeft/AiChat.qml',args.directory/'services/Ai.qml']
+    paths=[args.directory/'modules/common/Config.qml',args.directory/'modules/ii/sidebarLeft/AiChat.qml',args.directory/'services/Ai.qml',args.directory/'modules/ii/sidebarLeft/ApiInputBoxIndicator.qml']
     changes=[]
-    for path, transform in zip(paths,[config,sidebar,service]):
+    for path, transform in zip(paths,[config,sidebar,service,indicator]):
         text=path.read_text()
-        if MARKER not in text: changes.append((path,transform(text)))
+        marker = "// end4-personal command approval compact" if transform is sidebar else MARKER
+        if marker not in text: changes.append((path,transform(text)))
     for path,text in changes:
         if not args.dry_run: path.write_text(text)
         print(('Would update ' if args.dry_run else 'Updated ')+str(path))
