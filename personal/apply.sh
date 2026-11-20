@@ -116,6 +116,12 @@ if ! python3 "$PERSONAL_DIR/install-ai-tools-hook.py" "${HOOK_ARGS[@]}" "$HOME/.
     exit 1
 fi
 
+# --- Sidebar voice typing ----------------------------------------------------
+if ! python3 "$PERSONAL_DIR/install-ai-voice-hook.py" "${HOOK_ARGS[@]}" "$HOME/.config/quickshell/ii/modules/ii/sidebarLeft/AiChat.qml"; then
+    say "warning: AI voice typing could not be applied; inspect the upstream sidebar."
+    exit 1
+fi
+
 # --- Fix known-invalid upstream values --------------------------------------
 # Upstream sets decoration.shadow.render_power = 10, but Hyprland rejects
 # anything above 4 and reports a config error on every reload. Patch the

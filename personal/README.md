@@ -76,6 +76,15 @@ The overlay also enables streamed function calls for OpenAI-compatible models.
 Shell commands still require approval in the chat before they run. The model can
 read the shell's graphical configuration using its configuration tool.
 
+## Sidebar voice typing
+
+The microphone button records up to 60 seconds, then sends the audio to the
+Gemini API for transcription using the Gemini key saved in the sidebar. Click
+again to stop early. The transcription is inserted into the input box for review;
+it is not sent as a chat message automatically. This requires `python3` and
+`pw-record`. The temporary recording is deleted after transcription. Gemini's
+free API tier may use submitted content to improve Google products.
+
 ## Updating from upstream
 
 One-time setup of the upstream remote:
