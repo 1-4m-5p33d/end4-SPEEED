@@ -122,6 +122,18 @@ if ! python3 "$PERSONAL_DIR/install-ai-voice-hook.py" "${HOOK_ARGS[@]}" "$HOME/.
     exit 1
 fi
 
+# --- AI command approval toggle ---------------------------------------------
+if ! python3 "$PERSONAL_DIR/install-ai-approval-hook.py" "${HOOK_ARGS[@]}" "$HOME/.config/quickshell/ii"; then
+    say "warning: AI command approval toggle could not be applied; inspect the shell files."
+    exit 1
+fi
+
+# --- Global voice typing indicator -------------------------------------------
+if ! python3 "$PERSONAL_DIR/install-global-dictation-hook.py" "${HOOK_ARGS[@]}" "$HOME/.config/quickshell/ii/modules/ii/bar/BarContent.qml"; then
+    say "warning: global voice typing indicator could not be applied; inspect the top bar."
+    exit 1
+fi
+
 # --- Fix known-invalid upstream values --------------------------------------
 # Upstream sets decoration.shadow.render_power = 10, but Hyprland rejects
 # anything above 4 and reports a config error on every reload. Patch the

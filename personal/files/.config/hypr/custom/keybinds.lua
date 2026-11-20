@@ -41,3 +41,6 @@ for _, button in ipairs({ 272, 273, 274, 275, 276, 277 }) do
 end
 hl.bind("SUPER + mouse_up", hl.dsp.global("quickshell:searchToggleReleaseInterrupt"))
 hl.bind("SUPER + mouse_down", hl.dsp.global("quickshell:searchToggleReleaseInterrupt"))
+
+-- Toggle global Gemini voice typing.
+hl.bind("SUPER + Space", hl.dsp.global("quickshell:personalDictationToggle"), { description = "Voice typing: Start/stop" })

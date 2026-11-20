@@ -76,6 +76,14 @@ The overlay also enables streamed function calls for OpenAI-compatible models.
 Shell commands still require approval in the chat before they run. The model can
 read the shell's graphical configuration using its configuration tool.
 
+## AI command approval
+
+The sidebar has an Ask/Auto switch for shell commands. Ask is the default and
+requires approval for each command; Auto runs AI-requested shell commands
+without prompting in every chat. The chosen setting is saved in the shell config.
+As with other settings, run `./personal/capture.sh` to include the current choice
+in the overlay before applying it on another machine.
+
 ## Sidebar voice typing
 
 The microphone button records up to 60 seconds, then sends the audio to the
@@ -84,6 +92,17 @@ again to stop early. The transcription is inserted into the input box for review
 it is not sent as a chat message automatically. This requires `python3` and
 `pw-record`. The temporary recording is deleted after transcription. Gemini's
 free API tier may use submitted content to improve Google products.
+
+## Global voice typing
+
+Press Super+Space in a focused application to start recording and press it again
+to stop. The blue microphone in the top bar pulses during recording and changes
+while Gemini transcribes. The transcription is typed into the focused window;
+if the window changes, typing is cancelled. Errors appear as desktop notifications.
+Audio is sent to Gemini using the key saved in the sidebar. This needs `wtype`,
+`pw-record`, Python, and a compositor that supports the Wayland virtual keyboard
+protocol. The recording stops automatically after about a minute; newline and tab
+characters are converted to spaces so they do not trigger keys in applications.
 
 ## Updating from upstream
 

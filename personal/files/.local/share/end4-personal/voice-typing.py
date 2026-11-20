@@ -46,7 +46,7 @@ def main():
         with open(audio_path, 'rb') as audio:
             encoded = base64.b64encode(audio.read()).decode('ascii')
         body = {'contents': [{'parts': [{'text': 'Transcribe the speech verbatim. Return only the spoken words, without commentary. If there is no speech, return an empty response.'}, {'inline_data': {'mime_type': 'audio/wav', 'data': encoded}}]}]}
-        req = urllib.request.Request('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', data=json.dumps(body).encode(), headers={'Content-Type': 'application/json', 'x-goog-api-key': key})
+        req = urllib.request.Request('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent', data=json.dumps(body).encode(), headers={'Content-Type': 'application/json', 'x-goog-api-key': key})
         try:
             with urllib.request.urlopen(req, timeout=45) as response:
                 result = json.load(response)

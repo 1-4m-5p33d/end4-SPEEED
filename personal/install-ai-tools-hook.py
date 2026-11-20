@@ -38,8 +38,8 @@ def strategy(text):
     text = replace_once(text, '''        // OpenAI format doesn't need special finish handling
         return {};''', '''        if (!streamedToolCall) return {};
         if (isReasoning) {
-            message.content += "\n\n</think>\n\n";
-            message.rawContent += "\n\n</think>\n\n";
+            message.content += "\\n\\n</think>\\n\\n";
+            message.rawContent += "\\n\\n</think>\\n\\n";
             isReasoning = false;
         }
         const call = streamedToolCall;
