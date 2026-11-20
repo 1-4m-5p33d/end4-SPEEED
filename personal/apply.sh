@@ -103,6 +103,19 @@ if ! python3 "$PERSONAL_DIR/install-lyrics-hook.py" "${HOOK_ARGS[@]}" "$MEDIA_DI
     exit 1
 fi
 
+# --- Image attachments for OpenAI-compatible models -------------------------
+AI_STRATEGY="$HOME/.config/quickshell/ii/services/ai/OpenAiApiStrategy.qml"
+if ! python3 "$PERSONAL_DIR/install-ai-image-hook.py" "${HOOK_ARGS[@]}" "$AI_STRATEGY"; then
+    say "warning: AI image integration could not be applied; inspect the upstream strategy."
+    exit 1
+fi
+
+# --- Tool calls for OpenAI-compatible models --------------------------------
+if ! python3 "$PERSONAL_DIR/install-ai-tools-hook.py" "${HOOK_ARGS[@]}" "$HOME/.config/quickshell/ii/services"; then
+    say "warning: AI tools integration could not be applied; inspect the upstream service."
+    exit 1
+fi
+
 # --- Fix known-invalid upstream values --------------------------------------
 # Upstream sets decoration.shadow.render_power = 10, but Hyprland rejects
 # anything above 4 and reports a config error on every reload. Patch the

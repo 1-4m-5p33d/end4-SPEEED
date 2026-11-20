@@ -64,6 +64,18 @@ line highlighted. It uses the active player's MPRIS metadata and position and
 looks up timed lyrics from LRCLIB, sending the song title and artist to that
 service. Tracks without matching timed lyrics show an unavailable message.
 
+## AI image attachments
+
+The overlay adds image attachments to the sidebar's OpenAI-compatible models,
+including Token Harbor. PNG, JPEG, GIF, and WebP images are sent as data URLs
+with the current message. Reattach an image when a later message needs it.
+The installer checks the upstream strategy before applying the hook; reapply
+the overlay after upstream updates and restart Quickshell to load the change.
+
+The overlay also enables streamed function calls for OpenAI-compatible models.
+Shell commands still require approval in the chat before they run. The model can
+read the shell's graphical configuration using its configuration tool.
+
 ## Updating from upstream
 
 One-time setup of the upstream remote:
